@@ -13,6 +13,10 @@ class Product {
 }
 class ShoppingCard {
   items = [];
+  addProduct(product) {
+    this.items.push(product);
+    this.totalOutput.innerHTML = `<h2>Total: \$${1}</h2>`;
+  }
   render() {
     const cardEl = document.createElement("section");
     cardEl.innerHTML = `
@@ -21,6 +25,7 @@ class ShoppingCard {
 
     `;
     cardEl.className = "cart";
+    this.totalOutput = cardEl.querySelector("h2");
     return cardEl;
   }
 }
@@ -29,8 +34,7 @@ class ProductItem {
     this.product = product;
   }
   addToCard() {
-    console.log("adding product to card");
-    console.log(this.product);
+    App.addProductToCard(this.product);
   }
   render() {
     const prodEl = document.createElement("li");
@@ -84,8 +88,8 @@ class Shop {
   render() {
     const renderHook = document.getElementById("app");
 
-    const card = new ShoppingCard();
-    const cardEl = card.render();
+    this.card = new ShoppingCard();
+    const cardEl = this.card.render();
     const productList = new ProductList();
     const prodListEl = productList.render();
 
@@ -94,5 +98,15 @@ class Shop {
   }
 }
 
-const shop = new Shop();
-shop.render();
+class App {
+  static init() {
+    const shop = new Shop();
+    shop.render();
+    this.card = shop.card;
+  }
+  static addProductToCard(product) {
+    this.card.addProduct(product);
+  }
+}
+
+App.init();
