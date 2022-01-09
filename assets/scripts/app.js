@@ -11,7 +11,19 @@ class Product {
     this.price = price;
   }
 }
+class ShoppingCard {
+  items = [];
+  render() {
+    const cardEl = document.createElement("section");
+    cardEl.innerHTML = `
+    <h2>Total: \$${0}</h2>
+    <button>Order now!</button>
 
+    `;
+    cardEl.className = "cart";
+    return cardEl;
+  }
+}
 class ProductItem {
   constructor(product) {
     this.product = product;
@@ -57,7 +69,6 @@ class ProductList {
   ];
   constructor() {}
   render() {
-    const renderHook = document.getElementById("app");
     const prodList = document.createElement("ul");
     prodList.className = "product-list";
 
@@ -66,9 +77,22 @@ class ProductList {
       const prodEl = productItem.render();
       prodList.append(prodEl);
     }
-    renderHook.append(prodList);
+    return prodList;
+  }
+}
+class Shop {
+  render() {
+    const renderHook = document.getElementById("app");
+
+    const card = new ShoppingCard();
+    const cardEl = card.render();
+    const productList = new ProductList();
+    const prodListEl = productList.render();
+
+    renderHook.append(cardEl);
+    renderHook.append(prodListEl);
   }
 }
 
-const productList = new ProductList();
-productList.render();
+const shop = new Shop();
+shop.render();
